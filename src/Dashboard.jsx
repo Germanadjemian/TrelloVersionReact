@@ -1,5 +1,7 @@
 import { useContext, useEffect } from "react";
 import { SvUrl, TaskArray } from "./App"
+import "./Dashboard.css"
+import Card from "./Card";
 
 async function getTasks(url) {
     const response = await fetch(url);
@@ -14,11 +16,13 @@ async function getTasks(url) {
     return tasks;
 }
 
-function DashboardColumn({ name }) {
+function DashboardColumn({ name, children }) {
     return (
-        <div id={name}>
-            <h2>{name}</h2>
-            <div className="inner-column"></div>
+        <div className="custom-column" id={name}>
+            <h2 className="subtitle is-3">{name}</h2>
+            <div className="inner-column">
+                {children}
+            </div>
         </div>
     );
 }
@@ -39,14 +43,20 @@ function Dashboard() {
         // Habrá que meter un return?
     }, []);
 
+    const column_categories = ["Backlog", "To Do", "In Progress", "Blocked", "Done"];
     return (
-        <>
-            <DashboardColumn name="Backlog"></DashboardColumn>
-            <DashboardColumn name="To Do"></DashboardColumn>
-            <DashboardColumn name="In Progress"></DashboardColumn>
-            <DashboardColumn name="Blocked"></DashboardColumn>
-            <DashboardColumn name="Done"></DashboardColumn>
-        </>
+        <div className="dashboard">
+            {column_categories.map((columncat, id) => {
+                return (
+                    <DashboardColumn name={columncat} key={id}>
+                        {Tasks[0].map((task, id) => {
+                            if (task.status === columncat)
+                                return <Card task={task} key={id} />
+                        })}
+                    </DashboardColumn>
+                );
+            })}
+        </div>
     );
 }
 
