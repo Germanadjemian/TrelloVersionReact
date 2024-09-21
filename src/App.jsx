@@ -1,21 +1,28 @@
 import { createContext, useState } from 'react'
 import { Title } from './Title';
+import Dashboard from './Dashboard';
 //import './App.css'
 
-const TaskArray = createContext();
+export const TaskArray = createContext();
+export const SvUrl = createContext();
 
 function App() {
   const [tasks, setTasks] = useState([]);
+  const url = "http://localhost:3000/api/tasks";
 
   return (
     <>
-      <TaskArray.Provider value={[tasks, setTasks]} >
-        <Title />
+      <SvUrl.Provider value={url}>
+        <TaskArray.Provider value={[tasks, setTasks]} >
+          <Title />
+          <Dashboard></Dashboard>
 
 
 
 
-      </TaskArray.Provider>
+        </TaskArray.Provider>
+      </SvUrl.Provider>
+
     </>
   )
 }
