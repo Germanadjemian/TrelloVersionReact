@@ -1,8 +1,28 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ModalActiveContext } from "./ModalActiveContext";
 
 export function Title() {
     const modalmanager = useContext(ModalActiveContext);
+
+    useEffect(() => {
+        const theme_switch_button = document.getElementById("theme_switcher_btn"); // ID corregido
+        const toggleTheme = () => {
+            // Cambiar tema en el HTML
+            document.getElementsByTagName("html")[0].classList.toggle("theme-dark");
+
+            // Cambiar el ícono del botón
+            const iconSpan = theme_switch_button.querySelector("span");
+            const icon = iconSpan.innerText;
+            iconSpan.innerText = (icon === "dark_mode") ? "light_mode" : "dark_mode";
+        };
+
+        theme_switch_button.addEventListener("click", toggleTheme);
+
+        // Limpiar el event listener al desmontar
+        return () => {
+            theme_switch_button.removeEventListener("click", toggleTheme);
+        };
+    }, []); // Array vacío para que el efecto se ejecute solo cuando el componente se monta
 
     return (
         <>
@@ -19,4 +39,4 @@ export function Title() {
             </div>
         </>
     );
-};
+}
