@@ -1,20 +1,7 @@
-import { useContext, useEffect } from "react";
-import { SvUrl, TaskArray } from "./App"
+import { createContext, useContext, useEffect } from "react";
 import "./Dashboard.css"
 import Card from "./Card";
-
-async function getTasks(url) {
-    const response = await fetch(url);
-    const tasks = await response.json();
-
-    const status = `Dashboard.jsx - getTasks(): ${response.status}, ${response.statusText}`;
-    console.log(status);
-
-    if (!response.ok)
-        return;
-
-    return tasks;
-}
+import { TasksContext } from "./TasksContext";
 
 function DashboardColumn({ name, children }) {
     return (
@@ -28,19 +15,17 @@ function DashboardColumn({ name, children }) {
 }
 
 function Dashboard() {
-    const url = useContext(SvUrl);
-    const Tasks = useContext(TaskArray);
+    const manager = useContext(TasksContext);
 
     // Recuperamos las tareas
     useEffect(() => {
         async function fetcher() {
-            const tasks = await getTasks(url);
-            Tasks[1](tasks);
+            await manager.getTasks();
         }
 
         fetcher();
 
-        // Habrá que meter un return?
+        // Habrá que meter un return o no queda nada para limpiar?
     }, []);
 
     const column_categories = ["Backlog", "To Do", "In Progress", "Blocked", "Done"];
@@ -49,9 +34,9 @@ function Dashboard() {
             {column_categories.map((columncat, id) => {
                 return (
                     <DashboardColumn name={columncat} key={id}>
-                        {Tasks[0].map((task, id) => {
+                        {manager.tasks.map(task => {
                             if (task.status === columncat)
-                                return <Card task={task} key={id} />
+                                return <Card task={task} key={task.id} />
                         })}
                     </DashboardColumn>
                 );
