@@ -1,4 +1,9 @@
+import { useContext } from "react";
+import { ModalActiveContext } from "./ModalActiveContext";
+
 export function Title() {
+    const modalmanager = useContext(ModalActiveContext);
+
     return (
         <>
             <header className="block is-flex is-justify-content-center is-align-items-center">
@@ -8,7 +13,7 @@ export function Title() {
                 <button className="button is-small" id="theme_switcher_btn">
                     <span className="material-symbols-outlined">dark_mode</span>
                 </button>
-                <button className="button is-small" id="add_task_btn">
+                <button className="button is-small" id="add_task_btn" onClick={() => modalmanager.setActive(true)}>
                     <span className="material-symbols-outlined">add_task</span>
                 </button>
             </div>

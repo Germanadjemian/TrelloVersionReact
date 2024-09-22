@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { TasksContext } from "./TasksContext";
+import "./Card.css"
 
 function formatDate(date) {
     return date.toLocaleString("en-GB", { timeZone: "America/Montevideo" }).split(",")[0];

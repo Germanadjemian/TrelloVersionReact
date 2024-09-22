@@ -1,21 +1,19 @@
-import { createContext, useState } from 'react'
 import { Title } from './Title';
 import Dashboard from './Dashboard';
 import { TasksManager } from './TasksContext';
-//import './App.css'
+import Modal from './Modal';
+import { ModalManager } from './ModalActiveContext';
 
 function App() {
   return (
     <>
-      <Title />
-      <TasksManager>
-        <Dashboard></Dashboard>
-      </TasksManager>
-
-
-
-
-
+      <ModalManager>
+        <Title />
+        <TasksManager>
+          <Dashboard></Dashboard>
+        </TasksManager>
+        <Modal></Modal>
+      </ModalManager>
     </>
   )
 }

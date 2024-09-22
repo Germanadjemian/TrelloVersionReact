@@ -1,0 +1,18 @@
+.modal-card {
+    width: 80%;
+    height: 90%;
+}
+
+@media (width >=768px) {
+    .modal-card {
+        width: 80%;
+        height: 80%;
+    }
+}
+
+@media (width >=1440px) {
+    .modal-card {
+        width: 80%;
+        height: 80%;
+    }
+}
