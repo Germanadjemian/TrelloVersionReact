@@ -32,7 +32,7 @@ function CardHeader({ task }) {
                     </span>
                 </button>
                 <button className="delete_task" onClick={() => manager.deleteTask(task)}>
-                    <span class="material-symbols-outlined">
+                    <span className="material-symbols-outlined">
                         delete
                     </span>
                 </button>
