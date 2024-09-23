@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { TasksContext } from "./TasksContext";
+import { ModalActiveContext } from "./ModalActiveContext";
 import "./Card.css"
 
 function formatDate(date) {
@@ -8,9 +9,33 @@ function formatDate(date) {
 
 function CardHeader({ task }) {
     const manager = useContext(TasksContext);
+    const modalmanager = useContext(ModalActiveContext)
+
+    function spawnModal() {
+        modalmanager.setPlaceholderTask({
+            id: task.id,
+            title: task.title,
+            description: task.description,
+            assignedTo: task.assignedTo,
+            startDate: task.startDate,
+            endDate:task.endDate,
+            status: task.status,
+            priority: task.priority,
+        });
+
+        modalmanager.setActive(true);
+    }
+
     return (
         <header className="card-header">
             <p className="card-header-title">{task.title}</p>
+            <div className="card-header-icon">
+                <button className="edit" onClick={spawnModal}>
+                    <span className="material-symbols-outlined">
+                        edit_square
+                    </span>
+                </button>
+            </div>
             <div className="card-header-icon">
                 <button className="delete" onClick={() => manager.deleteTask(task)}></button>
             </div>
