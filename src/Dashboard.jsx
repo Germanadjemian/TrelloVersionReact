@@ -31,11 +31,11 @@ function Dashboard() {
     const column_categories = ["Backlog", "To Do", "In Progress", "Blocked", "Done"];
     return (
         <div className="dashboard">
-            {column_categories.map((columncat, id) => {
+            {column_categories.map((categoria, id) => {
                 return (
-                    <DashboardColumn name={columncat} key={id}>
+                    <DashboardColumn name={categoria} key={id}>
                         {manager.tasks.map(task => {
-                            if (task.status === columncat)
+                            if (task.status === categoria)
                                 return <Card task={task} key={task.id} />
                         })}
                     </DashboardColumn>
