@@ -1,36 +1,75 @@
 import { useContext } from 'react'
 import { ModalActiveContext } from './ModalActiveContext';
+import { TasksContext } from './TasksContext';
 import "./Modal.css"
 
-function Footer() {
+function Footer({ onAccept, reset }) {
+    const modalmanager = useContext(ModalActiveContext);
+    function sendAndClose() {
+        if (onAccept()) {
+            reset();
+            modalmanager.setActive(false);
+        }
+    }
+
     return (
         <footer className="modal-card-foot">
             <div className="buttons">
-                <button className="button" id="cancel-button">Cancelar</button>
-                <button className="button is-success" id="save-button">Aceptar</button>
+                <button
+                    className="button"
+                    id="cancel-button"
+                    onClick={() => {
+                        modalmanager.setActive(false)
+                        reset();
+                    }}
+                >Cancelar</button>
+                <button
+                    className="button is-success"
+                    id="save-button"
+                    onClick={sendAndClose}
+                >Aceptar</button>
             </div>
         </footer>
     );
 }
 
-function InputTitle() {
+function InputTitle({ setPlaceholder, placeholder }) {
+    function handleChange(event) {
+        setPlaceholder("title", event.target.value);
+    }
+
     return (
         <div className="field">
             <label className="label">Título</label>
             <div className="control">
-                <input className="input" type="text" id="titulo" placeholder="Título de la tarea" />
+                <input
+                    className="input"
+                    type="text"
+                    id="titulo"
+                    placeholder="Título de la tarea"
+                    onChange={handleChange}
+                    value={placeholder} />
             </div>
         </div>
     );
 }
 
-function InputDescription() {
+function InputDescription({ setPlaceholder, placeholder }) {
+    function handleChange(event) {
+        setPlaceholder("description", event.target.value);
+    }
+
     return (
         <div className="field">
             <label className="label">Descripción</label>
             <div className="control">
-                <input className="textarea" id="descripcion" placeholder="Descripción de la tarea"
-                    maxLength="150" />
+                <textarea
+                    className="textarea"
+                    id="descripcion"
+                    placeholder="Descripción de la tarea"
+                    maxLength="150"
+                    onChange={handleChange}
+                    value={placeholder} />
             </div>
             <p className="help">
                 <span id="char-count">150</span> caracteres máximo.
@@ -40,107 +79,172 @@ function InputDescription() {
 
 }
 
-function AssignTo() {
+function DropdownComponent({ titulo, descripcion, opciones, propiedad, setPlaceholder, placeholder }) {
+    function handleChange(event) {
+        setPlaceholder(propiedad, event.target.value);
+    }
+
     return (
         <div className="field">
-            <label className="label">Asignado</label>
+            <label className="label">{titulo}</label>
             <div className="control">
                 <div className="select">
-                    <select id="asignado">
-                        <option value="">Asigne una persona</option>
-                        <option value="María">María</option>
-                        <option value="Ezequiel">Ezequiel</option>
-                        <option value="Bruno">Bruno</option>
-                        <option value="German">Germán</option>
-                        <option value="Rodrigo Lujambio">Rodrigo Lujambio</option>
-                        <option value="Michel Sampil">Michel Sampil</option>
-                        <option value="Jose Abadie">Jose Abadie</option>
+                    <select
+                        name={propiedad}
+                        required id={titulo.toLowerCase()}
+                        onChange={handleChange}
+                        value={placeholder} >
+                        <option value="">{descripcion}</option>
+                        {opciones.map((opcion, idx) => {
+                            return <option key={idx} value={opcion}>{opcion}</option>
+                        })}
                     </select>
                 </div>
             </div>
         </div>
     );
+
 }
 
-function SetPriority() {
-    return (
-        <div className="field">
-            <label className="label">Prioridad</label>
-            <div className="control">
-                <div className="select">
-                    <select id="prioridad">
-                        <option value="">Seleccione una Prioridad</option>
-                        <option value="Low">Baja</option>
-                        <option value="Medium">Media</option>
-                        <option value="High">Alta</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    );
-}
+function SetDate({ setPlaceholder, placeholder }) {
+    function handleChange(event) {
+        setPlaceholder("endDate", event.target.value);
+    }
 
-function SetStatus() {
-    return (
-        <div className="field">
-            <label className="label">Estado</label>
-            <div className="control">
-                <div className="select">
-                    <select name="status" required id="estado">
-                        <option value="">Seleccione un Estado</option>
-                        <option value="Backlog">Backlog</option>
-                        <option value="To Do">To Do</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Blocked">Blocked</option>
-                        <option value="Done">Done</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function SetDate() {
     return (
         <div className="field">
             <label className="label">Fecha límite</label>
             <div className="control">
-                <input className="input" id="fecha_limite" type="date" />
+                <input
+                    className="input"
+                    id="fecha_limite"
+                    type="date"
+                    onChange={handleChange}
+                    value={placeholder} />
             </div>
         </div>
-    );
-}
-
-function BuildBody() {
-    return (
-        <section className="modal-card-body">
-            <form id="task-form">
-                <InputTitle></InputTitle>
-                <InputDescription></InputDescription>
-                <AssignTo></AssignTo>
-                <SetPriority></SetPriority>
-                <SetStatus></SetStatus>
-                <SetDate></SetDate>
-            </form>
-        </section>
     );
 }
 
 function Modal() {
     const modalmanager = useContext(ModalActiveContext);
+    const taskmanager = useContext(TasksContext);
 
     if (!modalmanager.is_active)
         return null;
 
+    console.log(modalmanager.placeholder_task)
+
+    let isNewTask = true;
+    let headerTitle = "Agregar tarea";
+    if (modalmanager.placeholder_task.id !== "") {
+        isNewTask = false;
+        headerTitle = "Editar tarea";
+    };
+
+    function setPlaceholderField(name, value) {
+        modalmanager.setPlaceholderTask({
+            ...modalmanager.placeholder_task,
+            [name]: value,
+        })
+    };
+
+    function resetPlaceholder() {
+        modalmanager.setPlaceholderTask({
+            id: "",
+            title: "",
+            description: "",
+            assignedTo: "",
+            startDate: "",
+            endDate: "",
+            status: "",
+            priority: "",
+            comments: [],
+        });
+    };
+
+    function ArmarYMandarJSON() {
+        console.log(modalmanager.placeholder_task)
+        let isFilled = true;
+        Object.entries(modalmanager.placeholder_task).forEach(propiedad => {
+            if (propiedad[0] !== "id" && propiedad[0] !== "startDate" && propiedad[1] === "")
+                isFilled = false;
+        })
+
+        if (isFilled) {
+            if (isNewTask)
+                taskmanager.addTask(modalmanager.placeholder_task);
+            else
+                taskmanager.editTask(modalmanager.placeholder_task);
+
+            return true;
+        } else {
+            alert("Quedan campos vacíos.");
+            return false;
+        }
+    };
+
+    const personas = ["María", "Ezequiel", "Bruno", "German", "Rodrigo Lujambio", "Michel Sampil", "Jose Abadie"];
+    const prioridades = ["Low", "Medium", "High"];
+    const column_categories = ["Backlog", "To Do", "In Progress", "Blocked", "Done"];
+
     return (
         <div className="modal is-active" id="task-menu" tabIndex="0">
-            <div className="modal-background" id="background"></div>
+            <div
+                className="modal-background"
+                id="background"
+                onClick={() => {
+                    modalmanager.setActive(false)
+                    resetPlaceholder();
+                }}
+            ></div>
             <div className="modal-card">
                 <header className="modal-card-head">
-                    <p className="modal-card-title"></p>
+                    <p className="modal-card-title">{headerTitle}</p>
                 </header>
-                <BuildBody></BuildBody>
-                <Footer></Footer>
+                <section className="modal-card-body">
+                    <form id="task-form">
+                        <InputTitle
+                            setPlaceholder={setPlaceholderField}
+                            placeholder={modalmanager.placeholder_task.title}
+                        ></InputTitle>
+                        <InputDescription
+                            setPlaceholder={setPlaceholderField}
+                            placeholder={modalmanager.placeholder_task.description}
+                        ></InputDescription>
+
+                        <DropdownComponent
+                            titulo={"Asignado"}
+                            descripcion={"Elegir asignado..."}
+                            opciones={personas}
+                            propiedad={"assignedTo"}
+                            setPlaceholder={setPlaceholderField}
+                            placeholder={modalmanager.placeholder_task.assignedTo}
+                        ></DropdownComponent>
+                        <DropdownComponent
+                            titulo={"Prioridad"}
+                            descripcion={"Seleccionar prioridad..."}
+                            opciones={prioridades}
+                            propiedad={"priority"}
+                            setPlaceholder={setPlaceholderField}
+                            placeholder={modalmanager.placeholder_task.priority}
+                        ></DropdownComponent>
+                        <DropdownComponent
+                            titulo={"Estado"}
+                            descripcion={"Seleccionar estado..."}
+                            opciones={column_categories}
+                            propiedad={"status"}
+                            setPlaceholder={setPlaceholderField}
+                            placeholder={modalmanager.placeholder_task.status}
+                        ></DropdownComponent>
+
+                        <SetDate
+                            setPlaceholder={setPlaceholderField}
+                            placeholder={modalmanager.placeholder_task.endDate}
+                        ></SetDate>
+                    </form>
+                </section>
+                <Footer onAccept={ArmarYMandarJSON} reset={resetPlaceholder}></Footer>
             </div>
         </div>
     );
