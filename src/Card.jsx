@@ -3,10 +3,6 @@ import { TasksContext } from "./TasksContext";
 import { ModalActiveContext } from "./ModalActiveContext";
 import "./Card.css"
 
-function formatDate(date) {
-    return date.toLocaleString("en-GB", { timeZone: "America/Montevideo" }).split(",")[0];
-}
-
 function CardHeader({ task }) {
     const manager = useContext(TasksContext);
     const modalmanager = useContext(ModalActiveContext)
@@ -18,7 +14,7 @@ function CardHeader({ task }) {
             description: task.description,
             assignedTo: task.assignedTo,
             startDate: task.startDate,
-            endDate:task.endDate,
+            endDate: task.endDate,
             status: task.status,
             priority: task.priority,
         });
@@ -30,14 +26,16 @@ function CardHeader({ task }) {
         <header className="card-header">
             <p className="card-header-title">{task.title}</p>
             <div className="card-header-icon">
-                <button className="edit" onClick={spawnModal}>
+                <button className="edit_task" onClick={spawnModal}>
                     <span className="material-symbols-outlined">
                         edit_square
                     </span>
                 </button>
-            </div>
-            <div className="card-header-icon">
-                <button className="delete" onClick={() => manager.deleteTask(task)}></button>
+                <button className="delete_task" onClick={() => manager.deleteTask(task)}>
+                    <span class="material-symbols-outlined">
+                        delete
+                    </span>
+                </button>
             </div>
         </header>
     );
@@ -50,7 +48,7 @@ function CardBody({ description, assignedTo, priority, endDate }) {
             <div className="tags">
                 <span className="tag is info is-light is-medium">
                     <span className="material-symbols-outlined">schedule</span>
-                    {formatDate(endDate)}
+                    {endDate}
                 </span>
                 <span className="tag is-info is-light is-medium">
                     <span className="material-symbols-outlined">account_circle</span>
