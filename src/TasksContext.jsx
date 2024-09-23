@@ -70,7 +70,6 @@ export function TasksManager({ children }) {
             const id = task.id;
             const url = `${this.url}/${id}`;
 
-            console.log(id)
             const response = await fetch(url, {
                 method: "PUT",
                 params: id,

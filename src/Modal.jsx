@@ -133,8 +133,6 @@ function Modal() {
     if (!modalmanager.is_active)
         return null;
 
-    console.log(modalmanager.placeholder_task)
-
     let isNewTask = true;
     let headerTitle = "Agregar tarea";
     if (modalmanager.placeholder_task.id !== "") {
@@ -164,7 +162,6 @@ function Modal() {
     };
 
     function ArmarYMandarJSON() {
-        console.log(modalmanager.placeholder_task)
         let isFilled = true;
         Object.entries(modalmanager.placeholder_task).forEach(propiedad => {
             if (propiedad[0] !== "id" && propiedad[0] !== "startDate" && propiedad[1] === "")
