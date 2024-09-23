@@ -1,3 +1,13 @@
+:root {
+    --column-background: hsl(0, 0%, 96%);
+    --outline-color: black;
+}
+
+.theme-dark {
+    --column-background: hsl(0, 0%, 21%);
+    --outline-color: white;
+}
+
 .dashboard {
     display: inline-flex;
     flex-direction: column;

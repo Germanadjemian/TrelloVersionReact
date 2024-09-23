@@ -11,8 +11,8 @@ function App() {
         <Title />
         <TasksManager>
           <Dashboard></Dashboard>
+          <Modal></Modal>
         </TasksManager>
-        <Modal></Modal>
       </ModalManager>
     </>
   )
