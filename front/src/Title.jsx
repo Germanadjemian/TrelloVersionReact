@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { ModalActiveContext } from "./ModalActiveContext";
+import { ModalActiveContext } from "./Contexts/ModalActiveContext";
 
 export function Title() {
     const modalmanager = useContext(ModalActiveContext);

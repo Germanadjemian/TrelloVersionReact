@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import "./Dashboard.css"
 import Card from "./Card";
-import { TasksContext } from "./TasksContext";
+import { TasksContext } from "./Contexts/TasksContext";
 
 function DashboardColumn({ name, children }) {
     return (

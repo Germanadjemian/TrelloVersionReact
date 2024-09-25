@@ -1,8 +1,8 @@
 import { Title } from './Title';
 import Dashboard from './Dashboard';
-import { TasksManager } from './TasksContext';
+import { TasksManager } from './Contexts/TasksContext';
 import Modal from './Modal';
-import { ModalManager } from './ModalActiveContext';
+import { ModalManager } from './Contexts/ModalActiveContext';
 
 function App() {
   return (

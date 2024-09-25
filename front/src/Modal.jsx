@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { ModalActiveContext } from './ModalActiveContext';
-import { TasksContext } from './TasksContext';
+import { ModalActiveContext } from './Contexts/ModalActiveContext';
+import { TasksContext } from './Contexts/TasksContext';
 import "./Modal.css"
 
 function Footer({ onAccept, reset }) {

@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { TasksContext } from "./TasksContext";
-import { ModalActiveContext } from "./ModalActiveContext";
+import { TasksContext } from "./Contexts/TasksContext";
+import { ModalActiveContext } from "./Contexts/ModalActiveContext";
 import "./Card.css"
 
 function CardHeader({ task }) {
