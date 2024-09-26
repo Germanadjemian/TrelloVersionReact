@@ -3,8 +3,11 @@ body {
     min-height: 100vh;
     max-height: 500vh;
     margin: 0;
-    padding: 2rem;
     background: linear-gradient(135deg, #6a0572, #003b73);
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+@media (width >=1440px) {
+    padding: 2rem;
 }
