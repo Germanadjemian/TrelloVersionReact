@@ -1,5 +1,6 @@
 # TODO  
 
- - Detalles estéticos: arreglar descripción de tarjetas, meter algún color, etc.  
+ - Detalles estéticos: Forzar título a color blanco.
  - Aprolijar la estructura del código: separar en carpetas tipo ./Components, ./Contexts, etc.  
- - Incluir el back acá? no sé si se puede, pero estaría bueno tener todo junto y levantarlo con un solo comando.
+ - Para iniciar todo el proyecto en simultáeno escribir en la terminal desde .\TrelloVersionReact la ruta del archivo run de la siguiente manera: .\run.bat
+ - Para cerrarlo simplemente matar el proceso con: CTRL + C
