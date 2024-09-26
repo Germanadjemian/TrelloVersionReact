@@ -1,16 +1,30 @@
 :root {
-    --column-background: hsl(0, 0%, 96%);
-    --outline-color: black;
+  --column-background: lightyellow;
+  --outline-color: white;
+  --column-hover-background: lightgoldenrodyellow;
+  --column-hover-shadow: rgba(0, 0, 0, 0.2);
 }
 
+
 .theme-dark {
-    --column-background: hsl(0, 0%, 21%);
+    --column-background: hsl(0, 0%, 20%);
     --outline-color: white;
+    body {
+    background: linear-gradient(135deg,#4b4b4b, #000000);
+}
+  .card {
+    background-color: hsl(0, 0%, 10%);
+    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.3);
+  }
 }
 
 .dashboard {
-    display: inline-flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  flex-wrap: nowrap;
 }
 
 .custom-column {
@@ -25,6 +39,35 @@
     border-width: 1px;
     border-radius: 10px;
     border-color: var(--outline-color);
+    transition: border-color 0.3s ease, border-width 0.3s ease, background-color 0.3s ease;
+}
+.custom-column.drag-over {
+  background-color: var(--column-hover-background);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  border-width: 2px;
+  border-style: dashed;
+  cursor: copy;
+}
+
+.custom-column:hover {
+  background-color: var(--column-hover-background);
+  box-shadow: 0px 8px 16px var(--column-hover-shadow);
+}
+
+.custom-column::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 10%, transparent 80%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.custom-column:hover::before {
+  opacity: 1;
 }
 
 .inner-column {
@@ -32,6 +75,43 @@
     overflow-y: scroll;
     scrollbar-width: none;
     max-height: 100%;
+}
+
+#theme_switcher_btn,
+#add_task_btn {
+  border: none;
+  border-radius: 50%;
+  padding: 15px;
+  position: fixed;
+  z-index: 9999;
+  transition: backround-color 0.3s ease, transform 0.3s ease;
+}
+
+#theme_switcher_btn {
+  background-color: #3498db; 
+  bottom: 80px; 
+  right: 20px; 
+}
+
+#add_task_btn {
+  background-color: #27ae60; 
+  bottom: 20px;
+  right: 20px;
+}
+
+#theme_switcher_btn:hover {
+  background-color: #2980b9; 
+  transform: scale(1.1); 
+}
+
+#add_task_btn:hover {
+  background-color: #218c54;
+  transform: scale(1.1);
+}
+
+#theme_switcher_btn:active,
+#add_task_btn:active {
+  transform: scale(0.9); 
 }
 
 @media (width >=768px) {
