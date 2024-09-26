@@ -3,6 +3,10 @@
     height: 90%;
 }
 
+.modal-backround {
+    background: rgba(0, 0, 0, 0.6);
+}
+
 @media (width >=768px) {
     .modal-card {
         width: 80%;
