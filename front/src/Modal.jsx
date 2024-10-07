@@ -181,7 +181,7 @@ function Modal() {
         }
     };
 
-    const personas = ["María", "Ezequiel", "Bruno", "German", "Rodrigo Lujambio", "Michel Sampil", "Jose Abadie"];
+    const personas = ["Franco", "María", "Ezequiel", "Bruno", "German", "Rodrigo Lujambio", "Michel Sampil", "Jose Abadie"];
     const prioridades = ["Low", "Medium", "High"];
     const column_categories = ["Backlog", "To Do", "In Progress", "Blocked", "Done"];
 
